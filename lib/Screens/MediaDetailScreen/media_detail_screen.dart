@@ -35,8 +35,21 @@ class MediaDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            children: [Text(media.lenght)],
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(
+              12.0,
+              1.0,
+              1.0,
+              1.0,
+            ),
+            child: Text(
+              'Hyperlink: ' + media.link,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+          Text(
+            'Lenght: ' + media.lenght,
+            style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
       ),
