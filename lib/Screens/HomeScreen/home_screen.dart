@@ -2,25 +2,66 @@ import 'package:flutter/material.dart';
 
 import 'Components/body.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeBody(),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 2: School',
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: [
-              IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
-              const Spacer(),
-              IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
-            ],
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(Icons.home),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: () {}),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: const HomeBody());
+          BottomNavigationBarItem(
+            label: 'Search',
+            icon: Icon(Icons.search),
+          ),
+          BottomNavigationBarItem(
+            label: 'Add Media',
+            icon: Icon(Icons.add),
+          ),
+          BottomNavigationBarItem(
+            label: 'Account',
+            icon: Icon(Icons.account_circle),
+          ),
+          BottomNavigationBarItem(
+            label: 'Patients',
+            icon: Icon(
+              Icons.people,
+            ),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

@@ -9,19 +9,6 @@ class MediaDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: [
-            IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
-            const Spacer(),
-            IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
-          ],
-        ),
-      ),
-      floatingActionButton:
-          FloatingActionButton(child: const Icon(Icons.add), onPressed: () {}),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: ListView(
         children: [
           Expanded(
