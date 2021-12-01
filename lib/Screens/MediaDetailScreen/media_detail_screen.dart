@@ -81,14 +81,82 @@ class _FlashesListState extends State<FlashesList> {
     );
   }
 
-  List<Widget> buildFlashes({data, start, end}) {
+  List<Widget> buildFlashes({data}) {
     List<Widget> list = [];
 
     for (int i = 0; i < data.size; i++) {
-      list.add(Text(data.docs[i]['description']));
+      Widget widget = BuildFlash(
+          description: data.docs[i]['description'],
+          start: data.docs[i]['start'],
+          end: data.docs[i]['end']);
+      if (i > 0) {
+        list.add(const Divider());
+      }
+      list.add(widget);
     }
 
     return list;
+  }
+}
+
+class BuildFlash extends StatelessWidget {
+  const BuildFlash(
+      {Key? key,
+      required this.description,
+      required this.start,
+      required this.end})
+      : super(key: key);
+  final String description;
+  final String start;
+  final String end;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: Theme.of(context).textTheme.subtitle1,
+            children: [
+              const WidgetSpan(
+                child:
+                    Icon(Icons.warning_rounded, color: Colors.amber, size: 22),
+              ),
+              TextSpan(
+                text: " " + description,
+              ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyText2,
+                children: [
+                  const TextSpan(
+                    text: "from ",
+                  ),
+                  TextSpan(
+                    style: Theme.of(context).textTheme.subtitle2,
+                    text: start,
+                  ),
+                  const TextSpan(
+                    text: " to ",
+                  ),
+                  TextSpan(
+                    style: Theme.of(context).textTheme.subtitle2,
+                    text: end,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -108,9 +176,17 @@ class TopSection extends StatelessWidget {
       child: Row(
         children: [
           const BackButton(),
-          Text(
-            name,
-            style: Theme.of(context).textTheme.headline5,
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.headline5,
+                children: [
+                  TextSpan(
+                    text: name,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
