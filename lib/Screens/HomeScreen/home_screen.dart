@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeBody(),

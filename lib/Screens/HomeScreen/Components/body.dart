@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_warning_app/Screens/MediaDetailScreen/media_detail_screen.dart';
 
@@ -6,73 +7,62 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaList(
-        media: List.generate(
-      20,
-      (i) => Media(
-        'Media $i',
-        '10:00',
-        'link',
-        List.generate(
-          2,
-          (i) => const Flash(
-            '5:00',
-            '6:00',
-            'description',
-          ),
-        ),
-      ),
-    ));
+    return const MediaList();
   }
 }
 
-class MediaList extends StatelessWidget {
-  const MediaList({Key? key, required this.media}) : super(key: key);
+class MediaList extends StatefulWidget {
+  const MediaList({Key? key}) : super(key: key);
 
-  final List<Media> media;
+  @override
+  _MediaListState createState() => _MediaListState();
+}
+
+class _MediaListState extends State<MediaList> {
+  final Stream<QuerySnapshot> _mediasStream =
+      FirebaseFirestore.instance.collection('Medias').snapshots();
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: media.length,
-      separatorBuilder: (context, index) {
-        return const Divider();
-      },
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.movie,
-            color: Colors.teal,
-          ),
-          title: Text(media[index].name),
-          trailing: const Icon(Icons.arrow_forward),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MediaDetailScreen(media: media[index]),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _mediasStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading..");
+        }
+
+        final data = snapshot.requireData;
+
+        return ListView.separated(
+          itemCount: data.size,
+          separatorBuilder: (context, index) {
+            return const Divider();
+          },
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: const Icon(
+                Icons.movie,
+                color: Colors.teal,
               ),
+              title: Text(data.docs[index]['name']),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        MediaDetailScreen(media: data.docs[index]),
+                  ),
+                );
+              },
             );
           },
         );
       },
     );
   }
-}
-
-class Media {
-  final String name;
-  final String lenght;
-  final String link;
-  final List<Flash> flashes;
-
-  const Media(this.name, this.lenght, this.link, this.flashes);
-}
-
-class Flash {
-  final String start;
-  final String end;
-  final String description;
-
-  const Flash(this.start, this.end, this.description);
 }
