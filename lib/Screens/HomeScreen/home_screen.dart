@@ -15,7 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeBody(),
     SearchBody(),
     Text(
-      'Index 2: School',
+      'Index 2: Add',
+    ),
+    Text(
+      'Index 3: Account',
+    ),
+    Text(
+      'Index 4: Patients',
     ),
   ];
 
