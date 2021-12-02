@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MediaDetailScreen extends StatelessWidget {
-  MediaDetailScreen({Key? key, required this.media}) : super(key: key);
+  const MediaDetailScreen({Key? key, required this.media}) : super(key: key);
   final QueryDocumentSnapshot<Object?> media;
 
   @override
@@ -68,8 +68,6 @@ class _FlashesListState extends State<FlashesList> {
         }
 
         final data = snapshot.requireData;
-
-        var widgets = <Widget>[];
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
