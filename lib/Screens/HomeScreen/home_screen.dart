@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_warning_app/Screens/AddScreen/Components/body.dart';
 import 'package:patient_warning_app/Screens/SearchScreen/Components/body.dart';
 import 'Components/body.dart';
 
@@ -10,13 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   static const List<Widget> _widgetOptions = <Widget>[
     HomeBody(),
     SearchBody(),
-    Text(
-      'Index 2: Add',
-    ),
+    AddMediaScreen(),
     Text(
       'Index 3: Account',
     ),
