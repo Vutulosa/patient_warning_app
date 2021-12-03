@@ -25,6 +25,23 @@ class _AddMediaScreenState extends State<AddMediaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference medias =
+        FirebaseFirestore.instance.collection('Medias');
+
+    Future<void> addMedia(String name, String length, String link) {
+      // Call the user's CollectionReference to add a new user
+      return medias
+          .add({'name': name, 'length': length, 'link': link}).then((value) {
+        for (int i = 0; i < flashes.length; i++) {
+          value.collection('Flashes').add({
+            'description': flashes[i].description,
+            'start': flashes[i].start,
+            'end': flashes[i].end
+          });
+        }
+      });
+    }
+
     return Form(
         key: _mediaFormKey,
         child: ListView(children: [
@@ -105,12 +122,10 @@ class _AddMediaScreenState extends State<AddMediaScreen> {
                             );
                           },
                         );
+                        addMedia(nameController.text, lengthController.text,
+                            linkController.text);
                       }
-                      //add media
-
-                      //clear screen
-
-                      //else show dialog to add flashes
+                      //clear screen //navigate home
                     }
                   },
                   icon: const Icon(Icons.add),

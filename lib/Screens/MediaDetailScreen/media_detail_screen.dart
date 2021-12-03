@@ -13,7 +13,7 @@ class MediaDetailScreen extends StatelessWidget {
         shrinkWrap: true,
         children: [
           TopSection(name: media["name"]),
-          MediaDetails(link: media["link"], lenght: media["lenght"]),
+          MediaDetails(link: media["link"], length: media["length"]),
           const Divider(),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(
@@ -191,10 +191,10 @@ class TopSection extends StatelessWidget {
 }
 
 class MediaDetails extends StatelessWidget {
-  const MediaDetails({Key? key, required this.lenght, required this.link})
+  const MediaDetails({Key? key, required this.length, required this.link})
       : super(key: key);
   final String link;
-  final String lenght;
+  final String length;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class MediaDetails extends StatelessWidget {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-            'Lenght: ' + lenght,
+            'Length: ' + length,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           ElevatedButton.icon(
