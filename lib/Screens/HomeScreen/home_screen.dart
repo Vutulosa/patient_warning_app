@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_warning_app/Screens/AccountScreen/account_screen.dart';
 import 'package:patient_warning_app/Screens/AddScreen/Components/body.dart';
 import 'package:patient_warning_app/Screens/SearchScreen/Components/body.dart';
 import 'Components/body.dart';
@@ -11,14 +12,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    HomeBody(),
+    // HomeBody(),
     SearchBody(),
     AddMediaScreen(),
-    Text(
-      'Index 3: Account',
-    ),
+    AccountScreen(),
     Text(
       'Index 4: Patients',
     ),
@@ -39,10 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(Icons.home),
-          ),
+          // BottomNavigationBarItem(
+          //   label: 'Home',
+          //   icon: Icon(Icons.home),
+          // ),
           BottomNavigationBarItem(
             label: 'Search',
             icon: Icon(Icons.search),
