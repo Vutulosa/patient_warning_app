@@ -104,9 +104,6 @@ class _FlashesFormState extends State<FlashesForm> {
                 ElevatedButton.icon(
                     onPressed: () {
                       if (_flashFormKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-
                         widget.onFlashAdded(Flash(descriptionController.text,
                             startController.text, endController.text));
 

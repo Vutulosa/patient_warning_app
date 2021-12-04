@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_warning_app/Screens/LoginScreen/login_controller.dart';
 
 import 'Screens/HomeScreen/home_screen.dart';
 
@@ -48,7 +49,7 @@ class _AppState extends State<App> {
           return MaterialApp(
             title: 'Patient Warning App',
             theme: ThemeData(primarySwatch: Colors.teal),
-            home: const HomeScreen(),
+            home: const LoginController(),
           );
         }
 

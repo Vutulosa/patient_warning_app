@@ -24,6 +24,15 @@ class _AddMediaScreenState extends State<AddMediaScreen> {
   final linkController = TextEditingController();
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameController.dispose();
+    lengthController.dispose();
+    linkController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     CollectionReference medias =
         FirebaseFirestore.instance.collection('Medias');
