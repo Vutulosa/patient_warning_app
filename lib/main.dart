@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_warning_app/Screens/LoginScreen/login_controller.dart';
 
-import 'Screens/HomeScreen/home_screen.dart';
-
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 

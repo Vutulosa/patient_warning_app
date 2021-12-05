@@ -1,15 +1,20 @@
+//REGISTER
+//VIEW PATIENTS
+//* VIEW PATIENT
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _loginFormKey = GlobalKey<FormState>();
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _registerFormKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -17,20 +22,23 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-          key: _loginFormKey,
+          key: _registerFormKey,
           child: ListView(
             children: [
               Padding(
                   padding: const EdgeInsetsDirectional.all(15),
-                  child: Text("Login",
-                      style: Theme.of(context).textTheme.headline4)),
+                  child: Row(children: [
+                    const BackButton(),
+                    Text("Register",
+                        style: Theme.of(context).textTheme.headline6)
+                  ])),
               Padding(
                   padding: const EdgeInsetsDirectional.all(15),
                   child: TextFormField(
                     controller: emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your e-mail';
+                        return "Please enter patient's e-mail";
                       }
                       return null;
                     },
@@ -47,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: passwordController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return "Please enter patient's password";
                     }
                     return null;
                   },
@@ -65,14 +73,46 @@ class _LoginScreenState extends State<LoginScreen> {
                         textStyle: const TextStyle(fontSize: 20),
                         minimumSize: const Size(100, 50)),
                     onPressed: () async {
-                      if (_loginFormKey.currentState!.validate()) {
+                      if (_registerFormKey.currentState!.validate()) {
                         try {
-                          // ignore: unused_local_variable
+                          String adminUid =
+                              FirebaseAuth.instance.currentUser!.uid;
                           UserCredential userCredential = await FirebaseAuth
                               .instance
-                              .signInWithEmailAndPassword(
+                              .createUserWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController.text);
+                          //create entry in users
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'role': 'user',
+                            'email': userCredential.user!.email,
+                            'uid': userCredential.user!.uid,
+                            'admin': adminUid
+                          });
+                          //create entry in user details
+                          FirebaseFirestore.instance
+                              .collection('userDetails')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'address': '',
+                            'age': '',
+                            'epilepsy': '',
+                            'issues': '',
+                            'gender': '',
+                          });
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const AlertDialog(
+                                  content: Text(
+                                'User Created.',
+                              ));
+                            },
+                          );
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'invalid-email') {
                             showDialog(
@@ -84,23 +124,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ));
                               },
                             );
-                          } else if (e.code == 'user-not-found') {
+                          } else if (e.code == 'email-already-in-use') {
                             showDialog(
                               context: context,
                               builder: (context) {
                                 return const AlertDialog(
                                     content: Text(
-                                  'No user found for that email.',
+                                  'E-mail already in use.',
                                 ));
                               },
                             );
-                          } else if (e.code == 'wrong-password') {
+                          } else if (e.code == 'weak-password') {
                             showDialog(
                               context: context,
                               builder: (context) {
                                 return const AlertDialog(
                                     content: Text(
-                                  'Invalid Password',
+                                  'Password is too weak',
                                 ));
                               },
                             );
@@ -108,8 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       }
                     },
-                    icon: const Icon(Icons.login),
-                    label: const Text("Login")),
+                    icon: const Icon(Icons.person_add_sharp),
+                    label: const Text("Register")),
               ),
             ],
           )),

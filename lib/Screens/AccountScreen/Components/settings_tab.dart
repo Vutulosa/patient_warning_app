@@ -59,6 +59,7 @@ class SettingsTab extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             FirebaseAuth.instance.signOut();
+                            Navigator.pop(context);
                           },
                           child: const Text(
                             'LOG OUT',

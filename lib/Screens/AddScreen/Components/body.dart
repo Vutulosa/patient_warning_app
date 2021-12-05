@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:patient_warning_app/Screens/MediaDetailScreen/media_detail_screen.dart';
 
 import 'flashes_form.dart';
 
